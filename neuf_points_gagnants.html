@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>
+		QPUC
+	</title>
+	<!-- Bootstrap core CSS -->
+
+	<script src="script/jquery.js"></script>
+	<script src="script/jquery-3.3.1.min.js"></script>
+
+
+    <style>
+
+    @font-face {
+      font-family: space;
+      src: url(/fonts/nulshock_bd.ttf);
+  }
+
+  .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+  }
+
+  .bg {
+      /* The image used */
+      background-image: url("media/bg.gif");
+
+      /* Full height */
+      height: 100%; 
+      width: 100%;
+      /* Center and scale the image nicely */
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+
+      background-attachment: fixed;
+  }
+
+  .oval {
+      height: 3vh;
+      width: 10vw;
+      border-radius: 20%;
+  }
+
+
+</style>
+<script src="/socket.io/socket.io.js"></script>
+</head>
+
+
+<body class='bg'>
+
+    <div id='audios' style="display:none;">
+        <audio id="br" controls>
+          <source src="media/bonne_réponse.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <audio id="tiktac" controls>
+          <source src="media/tictac_qpuc.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <audio id="tiktac_complet" controls>
+          <source src="media/tictac_qpuc_complet.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <audio id="ecoule" controls>
+          <source src="media/ecoule_qpuc.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <audio id="main" controls>
+          <source src="media/prend_la_main.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+         <audio id="faux" controls>
+          <source src="media/faux.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <audio id="buzz" controls>
+          <source src="media/buzz.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <audio id="appl" controls>
+          <source src="media/applause.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+        Hello Allé
+        <button class="button" onclick="joue_son()">Button</button>    
+    </div>
+
+
+    <div id="compteurs" style="color:white; font-family: space;">
+
+        <div id="titre" style="position:absolute ; top:10%; left:50%; font-size:3vw; transform:translate(-50%,0%); z-index:3;">
+            Neuf points gagnant
+        </div>
+
+        <div id="nom_j1" style="position:absolute ; top:30%; left:12.5%; font-size:2.5vw; transform:translate(-50%,0%);">
+            Cyan
+        </div>
+
+        <div id="j1" style="position:absolute ; top:40%; left:12.5%; font-size:4vw; transform:translate(-50%,0%);">
+            0
+        </div>
+
+        <div id="j1_9" class="oval" style="position:absolute ; top:50%; left:12.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j1_8" class="oval" style="position:absolute ; top:55%; left:12.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j1_7" class="oval" style="position:absolute ; top:60%; left:12.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j1_6" class="oval" style="position:absolute ; top:65%; left:12.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>    
+        <div id="j1_5" class="oval" style="position:absolute ; top:70%; left:12.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j1_4" class="oval" style="position:absolute ; top:75%; left:12.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j1_3" class="oval" style="position:absolute ; top:80%; left:12.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j1_2" class="oval" style="position:absolute ; top:85%; left:12.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>  
+        <div id="j1_1" class="oval" style="position:absolute ; top:90%; left:12.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div> 
+
+
+
+        <div id="nom_j2" style="position:absolute ; top:30%; left:37.5%; font-size:2.5vw; transform:translate(-50%,0%);">
+            Juliette
+        </div>
+
+        <div id="j2" style="position:absolute ; top:40%; left:37.5%; font-size:4vw; transform:translate(-50%,0%);">
+            0
+        </div>    
+
+        <div id="j2_9" class="oval" style="position:absolute ; top:50%; left:37.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j2_8" class="oval" style="position:absolute ; top:55%; left:37.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j2_7" class="oval" style="position:absolute ; top:60%; left:37.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j2_6" class="oval" style="position:absolute ; top:65%; left:37.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>    
+        <div id="j2_5" class="oval" style="position:absolute ; top:70%; left:37.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j2_4" class="oval" style="position:absolute ; top:75%; left:37.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j2_3" class="oval" style="position:absolute ; top:80%; left:37.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j2_2" class="oval" style="position:absolute ; top:85%; left:37.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>  
+        <div id="j2_1" class="oval" style="position:absolute ; top:90%; left:37.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+
+        <div id="nom_j3" style="position:absolute ; top:30%; left:62.5%; font-size:2.5vw; transform:translate(-50%,0%);">
+            Samuel
+        </div>
+
+        <div id="j3" style="position:absolute ; top:40%; left:62.5%; font-size:4vw; transform:translate(-50%,0%);">
+            0
+        </div>
+
+        <div id="j3_9" class="oval" style="position:absolute ; top:50%; left:62.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j3_8" class="oval" style="position:absolute ; top:55%; left:62.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j3_7" class="oval" style="position:absolute ; top:60%; left:62.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j3_6" class="oval" style="position:absolute ; top:65%; left:62.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>    
+        <div id="j3_5" class="oval" style="position:absolute ; top:70%; left:62.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j3_4" class="oval" style="position:absolute ; top:75%; left:62.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j3_3" class="oval" style="position:absolute ; top:80%; left:62.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j3_2" class="oval" style="position:absolute ; top:85%; left:62.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>  
+        <div id="j3_1" class="oval" style="position:absolute ; top:90%; left:62.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+
+        <div id="nom_j4" style="position:absolute ; top:30%; right:12.5%; font-size:2.5vw; transform:translate(50%,0%);">
+            Stéphane
+        </div>
+
+        <div id="j4" style="position:absolute ; top:40%; left:87.5%; font-size:4vw; transform:translate(-50%,0%);">
+            0
+        </div>  
+
+        <div id="j4_9" class="oval" style="position:absolute ; top:50%; left:87.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j4_8" class="oval" style="position:absolute ; top:55%; left:87.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j4_7" class="oval" style="position:absolute ; top:60%; left:87.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j4_6" class="oval" style="position:absolute ; top:65%; left:87.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>    
+        <div id="j4_5" class="oval" style="position:absolute ; top:70%; left:87.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j4_4" class="oval" style="position:absolute ; top:75%; left:87.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j4_3" class="oval" style="position:absolute ; top:80%; left:87.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>
+        <div id="j4_2" class="oval" style="position:absolute ; top:85%; left:87.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div>  
+        <div id="j4_1" class="oval" style="position:absolute ; top:90%; left:87.5%; transform:translate(-50%,0%); background-color: rgba(98,181,255,0.5);"></div> 
+
+    </div>
+
+    <div id="tout_le_log" style="display:block; color:white;"></div>
+
+
+
+    <script>
+
+
+
+        var socket = io.connect('http://localhost:8080');
+
+        var un_j1 = document.getElementById("j1_1");
+
+        function joue_son() {
+            son = document.getElementById("br");
+            son.load();
+            son.play();
+        }
+
+        function joue_appl() {
+            app = document.getElementById("appl");
+            app.load();
+            app.play();
+        }
+
+        function joue_buzz(){
+            sbuzz = document.getElementById("buzz");
+            sbuzz.load();
+            sbuzz.play();
+        }
+
+        function joue_faux(){
+            sfaux = document.getElementById("faux");
+            sfaux.load();
+            sfaux.play();
+        }
+       
+
+        function gagne( element ) {
+
+            var per = 0;
+            var id = setInterval(frame, 500);
+            function frame() {
+                if (per > 8) {
+                  clearInterval(id);
+              } else {
+                if (per%2 == 0){
+                    document.getElementById( element ).style.color = 'rgba(255,150,0,1)';
+                    document.getElementById( "nom_" + element ).style.color = 'rgba(255,150,0,1)';
+                    document.getElementById( element + "_1" ).style.backgroundColor = 'rgba(255,150,0,1)';
+                    document.getElementById( element + "_2" ).style.backgroundColor = 'rgba(255,150,0,1)';
+                    document.getElementById( element + "_3" ).style.backgroundColor = 'rgba(255,150,0,1)';
+                    document.getElementById( element + "_4" ).style.backgroundColor = 'rgba(255,150,0,1)';
+                    document.getElementById( element + "_5" ).style.backgroundColor = 'rgba(255,150,0,1)';
+                    document.getElementById( element + "_6" ).style.backgroundColor = 'rgba(255,150,0,1)';
+                    document.getElementById( element + "_7" ).style.backgroundColor = 'rgba(255,150,0,1)';
+                    document.getElementById( element + "_8" ).style.backgroundColor = 'rgba(255,150,0,1)';
+                    document.getElementById( element + "_9" ).style.backgroundColor = 'rgba(255,150,0,1)';
+                }else{
+                    document.getElementById( element ).style.color = 'white';
+                    document.getElementById( "nom_" + element ).style.color = 'white';
+                    document.getElementById( element + "_1" ).style.backgroundColor = 'rgba(98,181,255,1)';
+                    document.getElementById( element + "_2" ).style.backgroundColor = 'rgba(98,181,255,1)';
+                    document.getElementById( element + "_3" ).style.backgroundColor = 'rgba(98,181,255,1)';
+                    document.getElementById( element + "_4" ).style.backgroundColor = 'rgba(98,181,255,1)';
+                    document.getElementById( element + "_5" ).style.backgroundColor = 'rgba(98,181,255,1)';
+                    document.getElementById( element + "_6" ).style.backgroundColor = 'rgba(98,181,255,1)';
+                    document.getElementById( element + "_7" ).style.backgroundColor = 'rgba(98,181,255,1)';
+                    document.getElementById( element + "_8" ).style.backgroundColor = 'rgba(98,181,255,1)';
+                    document.getElementById( element + "_9" ).style.backgroundColor = 'rgba(98,181,255,1)';                
+                }
+
+                per = per + 1 ;
+
+            }
+        }
+    }
+
+
+// LISTE DES COMMANDES
+
+        // +1 pt Joueur 1 -- 97  A
+        // +1 pt Joueur 2 -- 122 Z
+        // +1 pt Joueur 3 -- 101 E
+        // +1 pt Joueur 4 -- 114 R
+
+
+
+
+        $(document).on("keypress", function(event) {
+
+            var x = event.which || event.keyCode;
+
+            if (event.keyCode == 97){
+
+                if (document.getElementById("j1").innerHTML < 9){
+                    joue_son()
+                    document.getElementById("j1").innerHTML = parseInt(document.getElementById("j1").innerHTML) + 1;            
+                }
+
+
+                if (document.getElementById("j1_1").style.backgroundColor == 'rgba(98, 181, 255, 0.5)'){
+                    document.getElementById("j1_1").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j1_2").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j1_2").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j1_2").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j1_2").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j1_3").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j1_3").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j1_4").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j1_4").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j1_5").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j1_5").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j1_6").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j1_6").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j1_7").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j1_7").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j1_8").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j1_8").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j1_9").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j1_9").style.backgroundColor = 'rgba(98,181,255,1)';
+                    gagne( "j1" );
+                    joue_appl();
+                }    
+
+
+            } else if (event.keyCode == 122){
+                joue_son()
+                document.getElementById("j2").innerHTML = parseInt(document.getElementById("j2").innerHTML) + 1;
+
+            } else if (event.keyCode == 101){
+                joue_son()
+                document.getElementById("j3").innerHTML = parseInt(document.getElementById("j3").innerHTML) + 1;
+            } else if (event.keyCode == 114){
+                joue_son()
+                document.getElementById("j4").innerHTML = parseInt(document.getElementById("j4").innerHTML) + 1;
+            }
+
+
+        });
+
+
+        socket.on('reset', function (etatbuzz) {
+            console.log(etatbuzz);
+            console.log("reset");
+            document.getElementById("nom_j1").style.color="white";
+            document.getElementById("nom_j2").style.color="white";
+            document.getElementById("nom_j3").style.color="white";
+            document.getElementById("nom_j4").style.color="white";
+
+        });
+
+
+        socket.on('ajoutpoint', function (etatbuzz) {
+            if (etatbuzz == "1"){
+                if (document.getElementById("j1").innerHTML < 9){
+                    joue_son()
+                    document.getElementById("j1").innerHTML = parseInt(document.getElementById("j1").innerHTML) + 1;            
+                }
+                if (document.getElementById("j1_1").style.backgroundColor == 'rgba(98, 181, 255, 0.5)'){
+                    document.getElementById("j1_1").style.backgroundColor = 'rgba(98,181,255,1)';
+                }else if( document.getElementById("j1_2").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j1_2").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j1_2").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j1_2").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j1_3").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j1_3").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j1_4").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j1_4").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j1_5").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j1_5").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j1_6").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j1_6").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j1_7").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j1_7").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j1_8").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j1_8").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j1_9").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j1_9").style.backgroundColor = 'rgba(98,181,255,1)';
+                    gagne( "j1" );
+                    joue_appl();
+                }    
+
+
+            } else if (etatbuzz == "2"){
+
+                if (document.getElementById("j2").innerHTML < 9){
+                    joue_son()
+                    document.getElementById("j2").innerHTML = parseInt(document.getElementById("j2").innerHTML) + 1;            
+                }
+
+
+                if (document.getElementById("j2_1").style.backgroundColor == 'rgba(98, 181, 255, 0.5)'){
+                    document.getElementById("j2_1").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j2_2").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j2_2").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j2_2").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j2_2").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j2_3").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j2_3").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j2_4").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j2_4").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j2_5").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j2_5").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j2_6").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j2_6").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j2_7").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j2_7").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j2_8").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j2_8").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j2_9").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j2_9").style.backgroundColor = 'rgba(98,181,255,1)';
+                    gagne( "j2" );
+                    joue_appl();
+                }
+            }     else if (etatbuzz == "3"){
+
+                if (document.getElementById("j3").innerHTML < 9){
+                    joue_son()
+                    document.getElementById("j3").innerHTML = parseInt(document.getElementById("j3").innerHTML) + 1;            
+                }
+
+
+                if (document.getElementById("j3_1").style.backgroundColor == 'rgba(98, 181, 255, 0.5)'){
+                    document.getElementById("j3_1").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j3_2").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j3_2").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j3_2").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j3_2").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j3_3").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j3_3").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j3_4").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j3_4").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j3_5").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j3_5").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j3_6").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j3_6").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j3_7").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j3_7").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j3_8").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j3_8").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j3_9").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j3_9").style.backgroundColor = 'rgba(98,181,255,1)';
+                    gagne( "j3" );
+                    joue_appl();
+                }
+            }  else if (etatbuzz == "4"){
+
+                if (document.getElementById("j4").innerHTML < 9){
+                    joue_son()
+                    document.getElementById("j4").innerHTML = parseInt(document.getElementById("j4").innerHTML) + 1;            
+                }
+
+
+                if (document.getElementById("j4_1").style.backgroundColor == 'rgba(98, 181, 255, 0.5)'){
+                    document.getElementById("j4_1").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j4_2").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j4_2").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j4_2").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j4_2").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j4_3").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j4_3").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j4_4").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j4_4").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j4_5").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j4_5").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j4_6").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j4_6").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j4_7").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j4_7").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j4_8").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j4_8").style.backgroundColor = 'rgba(98,181,255,1)';
+
+                }else if( document.getElementById("j4_9").style.backgroundColor == 'rgba(98, 181, 255, 0.5)' ){
+                    document.getElementById("j4_9").style.backgroundColor = 'rgba(98,181,255,1)';
+                    gagne( "j4" );
+                    joue_appl();
+                }
+            }
+
+
+        });
+
+
+socket.on("son", function(message){
+    if(message =="faux"){
+        joue_faux();
+    }
+
+})
+
+
+
+socket.on('qui', function (etatbuzz) {
+
+    if(etatbuzz == "1"){
+        document.getElementById("nom_j1").style.color="red";
+        joue_buzz();
+    }
+    if(etatbuzz == "2"){
+        document.getElementById("nom_j2").style.color="red";
+        joue_buzz();
+    }
+    if(etatbuzz == "3"){
+        document.getElementById("nom_j3").style.color="red";
+        joue_buzz();
+    }
+    if(etatbuzz == "4"){
+        document.getElementById("nom_j4").style.color="red";
+        joue_buzz();
+    }
+
+});
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</body>

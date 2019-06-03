@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Super Quizz temps réel !</title>
+
+
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+
+
+    <div id="hint"></div>
+    <h3>Interface gestion neuf points gagants </h3>
+    <button id="debloquer" onclick="debloquerlesbuzzers()">Debloquer les buzzers !</button><br />
+    <button id="debloquer" onclick="cligno()">Faire clignoter ! </button>
+    <button id="debloquer" onclick="test()">fonction swag qui sert a rien  ! (en plus elle est moche) </button><br />
+        <button id="debloquer" onclick="faux()">SON ERREUR ! </button><br />
+
+
+    <table><th><td colspan="4">Les scores</td></th>
+        <tr><td>J1</td><td>J2</td><td>J3</td><td>J4</td></tr>
+        <tr><td><button onclick="J1()">&nbsp;+1&nbsp;</button></td>
+           <td> <button onclick="J2()">&nbsp;+1&nbsp;</button></td>
+           <td><button onclick="J3()">&nbsp;+1&nbsp;</button></td>
+           <td><button onclick="J4()">&nbsp;+1&nbsp;</button></td></tr>
+       </table>
+       <div id="personnequibuzz" style="font-size: 300%;"></div>
+       <div id="affichage"></div>
+       <script>
+
+
+        /* INSERER ICI LE NOM DES GENS QUI JOUENT POUR QUE LE PRESENTATEUR PUISSE LES VOIR ! */
+        var pseudo1 = "gens 1";
+        var pseudo2 = "gens 2";
+        var pseudo3 = "gens 3";
+        var pseudo4 = "petit jean qui danse";
+
+
+
+
+
+
+// Connexion à socket.io
+var socket = io.connect('http://localhost:8080');
+
+// On demande le pseudo, on l'envoie au serveur et on l'affiche dans le titre
+document.title = "ADMIN" + ' - ' + document.title;
+
+socket.on('qui', function(etatbuzz) {
+    console.log(etatbuzz);
+    if (etatbuzz == "1") {
+        document.getElementById("personnequibuzz").innerHTML = pseudo1;
+    }
+    if (etatbuzz == "2") {
+        document.getElementById("personnequibuzz").innerHTML = pseudo2;
+    }
+    if (etatbuzz == "3") {
+       document.getElementById("personnequibuzz").innerHTML = pseudo3;
+   }
+   if (etatbuzz == "4") {
+    document.getElementById("personnequibuzz").innerHTML = pseudo4;
+}
+});
+
+
+function J1() {
+    socket.emit('buzz', '1');
+}
+
+function J2() {
+    socket.emit('buzz', '2');
+}
+
+function J3() {
+    socket.emit('buzz', '3');
+}
+
+function J4() {
+    socket.emit('buzz', '4');
+}
+
+function faux() {
+    socket.emit('son', 'faux');
+}
+
+
+
+function debloquerlesbuzzers() {
+    socket.emit('reset', 'reset');
+    document.getElementById("personnequibuzz").innerHTML = "";
+}
+
+
+function test() {
+    socket.emit("test", "mmm");
+}
+
+function cligno() {
+    socket.emit("cligno3s", "mmm");
+}
+
+</script>
+</body>
+
+</html>
